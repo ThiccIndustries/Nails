@@ -17,7 +17,10 @@ Entity* g_camera;
 Tool g_tool = CURSOR;
 Option g_debug = true;
 
-void tick(){ui_tick();};
+void tick(){
+    entity_tick();
+    ui_tick();
+};
 Chunk* load_chunk(Map* map, Coord2i coord);
 void unload_chunk(Map* map, Chunk* chunk);
 
@@ -47,9 +50,9 @@ int main(int argc, char* argv[]) {
     input_register_callbacks(windowptr);
 
 
-    g_camera = new Entity;
-    g_camera -> position = {0, 0};
-    g_camera -> map = g_map;
+    g_camera = entity_create();
+    g_camera -> transform -> position = {0, 0};
+    g_camera -> transform -> map = g_map;
 
     Panel* menubar = ui_menubar();
     ui_dynamic_panel_activate(menubar);
@@ -159,9 +162,7 @@ int main(int argc, char* argv[]) {
         double dx = speed * ((input_get_key(GLFW_KEY_D) ? 1 : 0) - (input_get_key(GLFW_KEY_A) ? 1 : 0));
         double dy = speed * ((input_get_key(GLFW_KEY_S) ? 1 : 0) - (input_get_key(GLFW_KEY_W) ? 1 : 0));
 
-        g_camera->camera.position.x += dx * g_time -> delta;
-        g_camera->camera.position.y += dy * g_time -> delta;
-
+        g_camera-> transform->velocity = {dx / TIME_TPS, dy / TIME_TPS};
         glfwSwapBuffers(windowptr);
     }
 
