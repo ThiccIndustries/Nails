@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     g_camera = entity_create();
     g_camera -> transform -> position = {0, 0};
     g_camera -> transform -> map = g_map;
-
+    g_camera -> health = 1;
     Panel* menubar = ui_menubar();
     ui_dynamic_panel_activate(menubar);
 
