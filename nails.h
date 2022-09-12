@@ -8,7 +8,7 @@
 #define NAILS_H
 
 #include "geode.h"
-
+#include "geode_uiextensions.h"
 enum Tool{
     CURSOR,
     PENCIL,
@@ -43,7 +43,7 @@ extern UndoList* g_undobuffer;
 extern Map* g_map;                  //Active map being edited
 extern Tool g_tool;
 extern Tile g_active_tile;          //Active tile selected
-extern uint g_selected_index;        //TODO: this is gross
+extern uint g_selected_index;
 extern Entity* g_camera;
 extern std::string g_nails_path;    //Resource path directory for nails
 

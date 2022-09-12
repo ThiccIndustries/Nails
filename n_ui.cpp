@@ -77,8 +77,8 @@ Panel* ui_menubar(){
     view_menu -> has_background = false;
     view_menu -> foreground_color = COLOR_BLACK;
     view_menu -> size = {160, 20};
-    Panel* cb_borders = ui_create_checkbox<bool>(1, COLOR_BLACK, COLOR_WHITE, (bool*)&g_debug, true, false);
-    Panel* cb_overlay = ui_create_checkbox<bool>(1, COLOR_BLACK, COLOR_WHITE, (bool*)&g_overlays, true, false);
+    Panel* cb_borders = uix_create_checkbox<bool>(1, COLOR_BLACK, COLOR_WHITE, (bool*)&g_debug, true, false);
+    Panel* cb_overlay = uix_create_checkbox<bool>(1, COLOR_BLACK, COLOR_WHITE, (bool*)&g_overlays, true, false);
 
     Panel_Text* lbl_overlay = new Panel_Text();
     Panel_Text* lbl_borders = new Panel_Text();
@@ -224,10 +224,10 @@ Panel* ui_tile_properties(){
     lbl_anime -> p.foreground_color = COLOR_WHITE;
     lbl_anime -> p.has_background = false;
 
-    Panel* cb_solid = ui_create_checkbox<bool>(2, COLOR_BLACK, COLOR_WHITE, &g_active_tile.solid, true, false);
-    Panel* cb_flipX = ui_create_checkbox<bool>(2, COLOR_BLACK, COLOR_WHITE, &g_active_tile.flipY, true, false);
-    Panel* cb_flipY = ui_create_checkbox<bool>(2, COLOR_BLACK, COLOR_WHITE, &g_active_tile.flipX, true, false);
-    Panel* cb_anime = ui_create_checkbox<bool>(2, COLOR_BLACK, COLOR_WHITE, &g_active_tile.animated, true, false);
+    Panel* cb_solid = uix_create_checkbox<bool>(2, COLOR_BLACK, COLOR_WHITE, &g_active_tile.solid, true, false);
+    Panel* cb_flipX = uix_create_checkbox<bool>(2, COLOR_BLACK, COLOR_WHITE, &g_active_tile.flipY, true, false);
+    Panel* cb_flipY = uix_create_checkbox<bool>(2, COLOR_BLACK, COLOR_WHITE, &g_active_tile.flipX, true, false);
+    Panel* cb_anime = uix_create_checkbox<bool>(2, COLOR_BLACK, COLOR_WHITE, &g_active_tile.animated, true, false);
 
     cb_solid -> parent = cb_flipX -> parent = cb_flipY -> parent = cb_anime -> parent = container;
 
@@ -265,7 +265,7 @@ Panel* ui_tile_properties(){
         if(g_active_tile.id != packet->old_id){
             packet -> old_id = g_active_tile.id;
             for(int i = 4; i < 8; ++i)
-                ui_refresh_checkbox<bool>(packet -> p->children[i]);
+                uix_refresh_checkbox<bool>(packet -> p->children[i]);
         }
 
         uchar opts = (g_active_tile.solid ? TILE_SOLID : 0) | (g_active_tile.flipX ? TILE_TEX_FLIP_X : 0) | (g_active_tile.flipY ? TILE_TEX_FLIP_Y : 0) | (g_active_tile.animated ? TILE_ANIMATED : 0);
@@ -282,7 +282,6 @@ Panel* ui_tile_properties(){
     return container;
 }
 
-//TODO: This has hard coded values for no good reason (Laziness)
 Panel* ui_tile_select(uint* id_out){
     Panel_Button* button = new Panel_Button();
     button -> p.position = {314, 14};

@@ -37,11 +37,11 @@ int main(int argc, char* argv[]) {
 
     //Load textures
     g_def_font = new Font{
-            texture_load_bmp(get_resource_path(g_nails_path, "resources/font.bmp"), TEXTURE_MULTIPLE, 8),
+            texture_load(get_resource_path(g_nails_path, "resources/font.bmp"), TEXTURE_MULTIPLE, 8),
             R"(ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!"#$%&'()*+,-./:;<=>?@[\]^_ {|}~0123456789)"
     };
 
-    Texture* ui = texture_load_bmp(get_resource_path(g_nails_path, "resources/ui.bmp"), TEXTURE_MULTIPLE, 16);
+    Texture* ui = texture_load(get_resource_path(g_nails_path, "resources/ui.bmp"), TEXTURE_MULTIPLE, 16);
 
     glfwSwapInterval(0);
 
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
 
     g_active_tile = world_get_tile_properties(0, g_map);
 
-    Panel* checkbox_test = ui_create_checkbox<uint>(3, COLOR_BLACK, COLOR_WHITE, &g_selected_index, 1, 2);
+    Panel* checkbox_test = uix_create_checkbox<uint>(3, COLOR_BLACK, COLOR_WHITE, &g_selected_index, 1, 2);
     Panel* field = ui_tile_properties();
     Panel* tile_sel = ui_tile_select(&g_selected_index);
     Panel* new_tile = ui_new_tile(ui, 8);
@@ -132,6 +132,7 @@ int main(int argc, char* argv[]) {
         world_populate_chunk_buffer(g_camera);
 
         //TODO: put this not here
+        //  Ehh, maybe, who cares.
         if(option_changed(&g_overlays)){
             for(int i = 0; i < (RENDER_DISTANCE * 2 + 1) * (RENDER_DISTANCE * 2 + 1); ++i){
                 world_chunk_refresh_metatextures(g_active_tile.map, g_chunk_buffer[i]);
@@ -143,11 +144,8 @@ int main(int argc, char* argv[]) {
         rendering_draw_frames();
         rendering_draw_tiles(g_selected_index);
 
-        //TODO: gross
         if(g_selected_index != g_active_tile.id)
-        {
             g_active_tile = world_get_tile_properties(g_selected_index, g_map);
-        }
 
         for(int i = 0; i <=  g_dynamic_panel_highest_id; ++i){
             if(g_dynamic_panel_registry[i] == nullptr)
